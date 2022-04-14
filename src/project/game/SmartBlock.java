@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 class SmartBlock extends Block
 {
-	private GamePanel gameField;
+	private final GamePanel gameField;
 
 	private Point startPos;
 	private boolean leftMousePressed;
@@ -15,6 +15,7 @@ class SmartBlock extends Block
 	private Point relativePos;
 	private Point estimatedPos;
 	private Shift shift;
+	
 	SmartBlock(int quantity, int maxHeight, int maxWidth, Image image, GamePanel gamePanel) {
 		super(quantity, maxHeight, maxWidth, image);
 		gameField = gamePanel;

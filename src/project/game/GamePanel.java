@@ -39,8 +39,7 @@ public class GamePanel extends JPanel
 	// Сетка
 	private Grid grid;
 	private SmartBlock[] blocks;
-
-	// Конструктор
+	
 	public GamePanel(int sizeX, int sizeY, int maxBlockWidth, int maxBlockHeight) throws IOException, ClassNotFoundException {
 		try {
 			records = GameIO.readRecords(saveFile);
@@ -63,8 +62,6 @@ public class GamePanel extends JPanel
 		this.maxBlockWidth = maxBlockWidth;
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
-		//setOpaque(false);
-		//setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
 		grid = new Grid(sizeX, sizeY, Block.SIZE, gridBaseBackColor, gridBaseNetColor);
 
@@ -73,8 +70,6 @@ public class GamePanel extends JPanel
 		{
 			@Override
 			public void paintComponent(Graphics g) {
-				//System.out.println("Рисую glassPanel");
-				//glassPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 				glassPanel.setBounds(0, 0, grid.getWidth() + PADDING * 2, grid.getHeight() + 3 * PADDING + (2 * ((GamePanel) getParent()).maxBlockHeight + 1) * (Block.SIZE + 1) + Block.SIZE);
 				grid.setLocation(PADDING, PADDING);
 				g.drawRect(grid.getX(), grid.getY() + grid.getHeight() + PADDING, grid.getWidth(), grid.getHeight());
@@ -103,7 +98,6 @@ public class GamePanel extends JPanel
 		infoPanel.setOpaque(false);
 		infoPanel.setLocation(glassPanel.getWidth(), -border);
 		infoPanel.setBorder(BorderFactory.createLineBorder(grid.getBackColor(), border));
-		//setBorder(BorderFactory.createLineBorder(Color.GREEN, border));
 		scoreTextBox = new ExtendedLabel("СЧЁТ", YELLOWISH_GREEN, SHADOW, new Font(fontName, Font.BOLD, 48));
 		scoreCountBox = new ExtendedLabel(String.valueOf(scoreValue), Color.WHITE, SHADOW, new Font(fontName, Font.BOLD, 36))
 		{
@@ -130,22 +124,17 @@ public class GamePanel extends JPanel
 
 		newGame = new ExtendedLabel("Новая игра", Color.WHITE, SHADOW, new Font(fontName, Font.BOLD, 28));
 		newGame.addMouseListener(colorChanger);
-		newGame.addMouseListener(new MouseAdapter()
-		{
+		newGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (JOptionPane.showConfirmDialog(window, "Начать новую игру?", "Новая игра", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-					start();
+				onNewGame();
 			}
 		});
-
 		exit.addMouseListener(colorChanger);
-		exit.addMouseListener(new MouseAdapter()
-		{
+		exit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (JOptionPane.showConfirmDialog(window, "Выйти из игры?", "Выход", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-					System.exit(0);
+				onExit();
 			}
 		});
 
@@ -165,25 +154,34 @@ public class GamePanel extends JPanel
 		infoPanel.add(exit);
 		infoPanel.add(scoreCountBox);
 		infoPanel.add(scoreTextBox);
-
 		setPreferredSize(new Dimension(glassPanel.getWidth() + infoPanel.getWidth() - border, glassPanel.getHeight()));
-		//setSize(glassPanel.getWidth() + infoPanel.getWidth() - border, glassPanel.getHeight());
-
 		add(glassPanel);
 		add(infoPanel);
 		add(grid);
 	}
-
+	
+	private void onNewGame() {
+		if (JOptionPane.showConfirmDialog(window, "Начать новую игру?", "Новая игра", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+			start();
+		}
+	}
+	
+	private void onExit() {
+		if (JOptionPane.showConfirmDialog(window, "Выйти из игры?", "Выход", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
+	}
+	
 	void addScore(int value) {
 		setScore(scoreValue += value);
 	}
-
+	
 	private void setScore(int value) {
 		scoreCountBox.setText(String.valueOf(scoreValue = value));
 	}
-
-	Grid getGrid() { return grid; }
-
+	
+	Grid getGrid() {return grid;}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
