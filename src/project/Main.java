@@ -29,7 +29,7 @@ public class Main
 		gameFrame.setResizable(false);
 		GamePanel gamePanel;
 		try {
-			gameFrame.setIconImage(ImageIO.read(Main.class.getResourceAsStream("icon.png")));
+			gameFrame.setIconImage(ImageIO.read(Main.class.getResourceAsStream("/icon.png")));
 			gamePanel = new GamePanel(10, 10, 4, 4);
 		} catch (Exception e) {
 			e.printStackTrace();
