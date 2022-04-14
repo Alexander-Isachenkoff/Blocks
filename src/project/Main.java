@@ -24,20 +24,6 @@ public class Main
 	public static void main(String[] args) {
 		setSystemTheme();
 		setRussianButtonsText();
-    	/*try
-		{
-			ImageIcon[] images = {
-				new ImageIcon("images/blocks/blue.png"),
-				new ImageIcon("images/blocks/red.png"),
-				new ImageIcon("images/blocks/green.png"),
-				new ImageIcon("images/blocks/yellow.png") };
-			GameIO.writeImages(images, new File("images.bin"));
-		}
-    	catch (IOException e)
-		{
-			System.out.println(e.getMessage());
-		}*/
-
 		JFrame gameFrame = new JFrame("Блоки");
 		gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		gameFrame.setResizable(false);
@@ -46,6 +32,7 @@ public class Main
 			gameFrame.setIconImage(ImageIO.read(Main.class.getResourceAsStream("icon.png")));
 			gamePanel = new GamePanel(10, 10, 4, 4);
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
